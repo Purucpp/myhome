@@ -230,13 +230,16 @@ public class MainActivity extends AppCompatActivity {
                             reference.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    showMsg("ondatachange");
                                     if(dataSnapshot.hasChild(auth.getCurrentUser().getUid()))
                                     {
+                                        showMsg("current user");
                                         Intent intent=new Intent(getApplicationContext(),ResidentSkipLogin.class);
                                         startActivity(intent);
                                         finish();
                                     }
                                     else {
+                                        showMsg("else current user");
                                         DatabaseReference referencesec=FirebaseDatabase.getInstance().getReference().child("security");
                                         referencesec.addValueEventListener(new ValueEventListener() {
                                             @Override
@@ -258,6 +261,7 @@ public class MainActivity extends AppCompatActivity {
                                             @Override
                                             public void onCancelled(@NonNull DatabaseError databaseError) {
 
+                                                showMsg("cancel ondatachange");
                                             }
                                         });
 
@@ -268,7 +272,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 @Override
                                 public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                                showMsg("onCancellled");
                                 }
                             });
 
@@ -293,6 +297,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+
+    }
+
+    private void showMsg(String msg)
+    {
+        Toast.makeText(getApplicationContext(),msg, Toast.LENGTH_SHORT).show();
 
     }
 }
